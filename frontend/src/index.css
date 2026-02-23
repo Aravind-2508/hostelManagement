@@ -1,0 +1,376 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+/* ── Enable dark mode via .dark class on <html> ── */
+@variant dark (&:where(.dark, .dark *));
+
+/* ── Design tokens ── */
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: #e0e7ff;
+  --secondary: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --sidebar-bg: #0f172a;
+  --sidebar-hover: #1e293b;
+  --sidebar-active: #6366f1;
+
+  /* Semantic surface tokens — light defaults */
+  --bg-base: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-subtle: #f8fafc;
+  --bg-muted: #f1f5f9;
+  --border-color: #e2e8f0;
+  --border-subtle: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --input-bg: #ffffff;
+  --input-border: #e2e8f0;
+}
+
+/* ── Dark mode token overrides ── */
+html.dark {
+  --bg-base: #0f172a;
+  --bg-card: #1e293b;
+  --bg-subtle: #1e293b;
+  --bg-muted: #334155;
+  --border-color: #334155;
+  --border-subtle: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --input-bg: #0f172a;
+  --input-border: #334155;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-base);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.2s ease;
+}
+
+/* ── Premium scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+/* ══════════════════════════════════════════════════════
+   SEMANTIC CSS UTILITY CLASSES (dark-mode aware)
+   These replace hardcoded Tailwind classes on bg/text/border
+   ══════════════════════════════════════════════════════ */
+
+/* Backgrounds */
+.bg-base {
+  background-color: var(--bg-base);
+}
+
+.bg-card {
+  background-color: var(--bg-card);
+}
+
+.bg-subtle {
+  background-color: var(--bg-subtle);
+}
+
+.bg-muted {
+  background-color: var(--bg-muted);
+}
+
+/* Text */
+.text-base {
+  color: var(--text-primary);
+}
+
+.text-sub {
+  color: var(--text-secondary);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+/* Borders */
+.border-base {
+  border-color: var(--border-color);
+}
+
+.border-subtle {
+  border-color: var(--border-subtle);
+}
+
+/* ══════════════════════════════════════════════════════
+   ANIMATIONS
+   ══════════════════════════════════════════════════════ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.4s ease both;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease both;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.3s ease both;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.2s ease both;
+}
+
+.animate-toast {
+  animation: toast-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Staggered children */
+.stagger-children>*:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.stagger-children>*:nth-child(2) {
+  animation-delay: 60ms;
+}
+
+.stagger-children>*:nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.stagger-children>*:nth-child(4) {
+  animation-delay: 180ms;
+}
+
+.stagger-children>*:nth-child(5) {
+  animation-delay: 240ms;
+}
+
+.stagger-children>*:nth-child(6) {
+  animation-delay: 300ms;
+}
+
+/* ══════════════════════════════════════════════════════
+   COMPONENT STYLES (dark-mode aware)
+   ══════════════════════════════════════════════════════ */
+
+/* Skeleton loading */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-muted) 25%, var(--border-color) 50%, var(--bg-muted) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* Glass morphism — Topbar */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  transition: background-color 0.3s ease;
+}
+
+html.dark .glass {
+  background: rgba(15, 23, 42, 0.90);
+  border-bottom-color: rgba(51, 65, 85, 0.8);
+}
+
+/* Card hover lift */
+.card-hover {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px -8px rgba(99, 102, 241, 0.15);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Primary button */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: white;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 10px 20px;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #4f46e5, #4338ca);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Input — dark-aware via CSS vars */
+.input-premium {
+  border: 1.5px solid var(--input-border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--input-bg);
+}
+
+.input-premium:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* Table row */
+.table-row-hover:hover {
+  background-color: var(--bg-subtle);
+}
+
+/* Notification dot */
+.notification-dot {
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  border: 2px solid white;
+}
+
+html.dark .notification-dot {
+  border-color: #0f172a;
+}
+
+.notification-dot::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: #ef4444;
+  opacity: 0.4;
+  animation: pulse-ring 1.5s ease-out infinite;
+}
+
+/* Sidebar transition */
+.sidebar-transition {
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
