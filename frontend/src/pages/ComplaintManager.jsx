@@ -1,3 +1,4 @@
+﻿import API_URL from '../config/api';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
@@ -37,8 +38,8 @@ const ComplaintManager = () => {
         try {
             const params = statusFilter ? `?status=${statusFilter}` : '';
             const [c, s] = await Promise.all([
-                axios.get(`http://localhost:5000/api/complaints${params}`, cfg),
-                axios.get('http://localhost:5000/api/complaints/stats', cfg),
+                axios.get(`${API_URL}/api/complaints${params}`, cfg),
+                axios.get(`${API_URL}/api/complaints/stats`, cfg),
             ]);
             setComplaints(c.data);
             setStats(s.data);
@@ -61,7 +62,7 @@ const ComplaintManager = () => {
         setSaving(true);
         try {
             await axios.put(
-                `http://localhost:5000/api/complaints/${expanded._id}`,
+                `${API_URL}/api/complaints/${expanded._id}`,
                 { status: newStatus, adminResponse: response },
                 cfg
             );

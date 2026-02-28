@@ -1,3 +1,4 @@
+﻿import API_URL from '../config/api';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
@@ -50,9 +51,9 @@ const Dashboard = () => {
             try {
                 const config = { headers: { Authorization: `Bearer ${admin.token}` } };
                 const [resStudents, resGroceries, resExpenses] = await Promise.all([
-                    axios.get('http://localhost:5000/api/students', config),
-                    axios.get('http://localhost:5000/api/grocery', config),
-                    axios.get('http://localhost:5000/api/expenses', config)
+                    axios.get(`${API_URL}/api/students`, config),
+                    axios.get(`${API_URL}/api/grocery`, config),
+                    axios.get(`${API_URL}/api/expenses`, config)
                 ]);
                 const totalSpent = resExpenses.data.reduce((acc, exp) => acc + exp.amount, 0);
                 const activeStudents = resStudents.data.filter(s => s.status === 'Active').length;

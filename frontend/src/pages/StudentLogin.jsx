@@ -1,3 +1,4 @@
+﻿import API_URL from '../config/api';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -15,7 +16,7 @@ const StudentLogin = () => {
         setError('');
         setLoading(true);
         try {
-            const { data } = await axios.post('http://localhost:5000/api/students/login', {
+            const { data } = await axios.post(`${API_URL}/api/students/login`, {
                 rollNo: rollNo.trim(),
                 password,
             });

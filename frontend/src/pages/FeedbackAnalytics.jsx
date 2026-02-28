@@ -1,3 +1,4 @@
+﻿import API_URL from '../config/api';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
@@ -27,7 +28,7 @@ const FeedbackAnalytics = () => {
 
     const fetchAnalytics = async () => {
         try {
-            const { data } = await axios.get('http://localhost:5000/api/feedback/analytics', cfg);
+            const { data } = await axios.get(`${API_URL}/api/feedback/analytics`, cfg);
             setAnalytics(data);
         } catch (e) { console.error(e); }
     };
@@ -37,7 +38,7 @@ const FeedbackAnalytics = () => {
             const params = new URLSearchParams();
             if (filter.day) params.append('day', filter.day);
             if (filter.mealType) params.append('mealType', filter.mealType);
-            const { data } = await axios.get(`http://localhost:5000/api/feedback?${params}`, cfg);
+            const { data } = await axios.get(`${API_URL}/api/feedback?${params}`, cfg);
             setAllFeedback(data);
         } catch (e) { console.error(e); }
         finally { setLoading(false); }

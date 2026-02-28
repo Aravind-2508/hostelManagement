@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+﻿import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import API_URL from '../config/api';
@@ -91,23 +91,23 @@ const StudentDashboard = () => {
 
     // ── Fetch data ──────────────────────────────────────────────
     const fetchMenu = useCallback(async () => {
-        const { data } = await axios.get('http://localhost:5000/api/menu');
+        const { data } = await axios.get(`${API_URL}/api/menu`);
         setAllMenu(data);
     }, []);
 
     const fetchMyFeedback = useCallback(async () => {
-        const { data } = await axios.get('http://localhost:5000/api/feedback/mine', { headers: authHeader() });
+        const { data } = await axios.get(`${API_URL}/api/feedback/mine`, { headers: authHeader() });
         setMyFeedback(data);
     }, []);
 
     const fetchNotifications = useCallback(async () => {
-        const { data } = await axios.get('http://localhost:5000/api/notifications', { headers: authHeader() });
+        const { data } = await axios.get(`${API_URL}/api/notifications`, { headers: authHeader() });
         setNotifications(data);
         setUnreadCount(data.filter(n => !n.isRead).length);
     }, []);
 
     const fetchComplaints = useCallback(async () => {
-        const { data } = await axios.get('http://localhost:5000/api/complaints/mine', { headers: authHeader() });
+        const { data } = await axios.get(`${API_URL}/api/complaints/mine`, { headers: authHeader() });
         setComplaints(data);
     }, []);
 
@@ -144,7 +144,7 @@ const StudentDashboard = () => {
         if (!fbRating) return alert('Please select a star rating');
         setFbSaving(true);
         try {
-            await axios.post('http://localhost:5000/api/feedback', {
+            await axios.post(`${API_URL}/api/feedback`, {
                 day: feedbackModal.day,
                 mealType: feedbackModal.mealType,
                 rating: fbRating,
@@ -160,11 +160,11 @@ const StudentDashboard = () => {
 
     // ── Mark notification as read ────────────────────────────────
     const markRead = async (id) => {
-        await axios.patch(`http://localhost:5000/api/notifications/${id}/read`, {}, { headers: authHeader() });
+        await axios.patch(`${API_URL}/api/notifications/${id}/read`, {}, { headers: authHeader() });
         await fetchNotifications();
     };
     const markAllRead = async () => {
-        await axios.patch('http://localhost:5000/api/notifications/mark-all-read', {}, { headers: authHeader() });
+        await axios.patch(`${API_URL}/api/notifications/mark-all-read`, {}, { headers: authHeader() });
         await fetchNotifications();
     };
 
@@ -173,7 +173,7 @@ const StudentDashboard = () => {
         e.preventDefault();
         setCmpSubmitting(true);
         try {
-            await axios.post('http://localhost:5000/api/complaints', cmpForm, { headers: authHeader() });
+            await axios.post(`${API_URL}/api/complaints`, cmpForm, { headers: authHeader() });
             setCmpSuccess(true);
             setCmpForm({ type: 'Complaint', category: 'Food', description: '' });
             await fetchComplaints();

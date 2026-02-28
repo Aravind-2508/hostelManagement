@@ -1,3 +1,4 @@
+﻿import API_URL from '../config/api';
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
@@ -24,7 +25,7 @@ const StudentManagement = () => {
     const fetchStudents = useCallback(async () => {
         try {
             const config = { headers: { Authorization: `Bearer ${admin.token}` } };
-            const { data } = await axios.get('http://localhost:5000/api/students', config);
+            const { data } = await axios.get(`${API_URL}/api/students`, config);
             setStudents(data);
         } catch {
             toast('Failed to load students', 'error');
@@ -60,10 +61,10 @@ const StudentManagement = () => {
             if (editStudent) {
                 const updateData = { ...formData };
                 if (!updateData.password) delete updateData.password;
-                await axios.put(`http://localhost:5000/api/students/${editStudent._id}`, updateData, config);
+                await axios.put(`${API_URL}/api/students/${editStudent._id}`, updateData, config);
                 toast('Student updated successfully!', 'success');
             } else {
-                await axios.post('http://localhost:5000/api/students', formData, config);
+                await axios.post(`${API_URL}/api/students`, formData, config);
                 toast('Student added successfully!', 'success');
             }
             setShowModal(false);
@@ -77,7 +78,7 @@ const StudentManagement = () => {
         if (!window.confirm(`Delete student "${name}"? This cannot be undone.`)) return;
         try {
             const config = { headers: { Authorization: `Bearer ${admin.token}` } };
-            await axios.delete(`http://localhost:5000/api/students/${id}`, config);
+            await axios.delete(`${API_URL}/api/students/${id}`, config);
             toast('Student removed', 'info');
             fetchStudents();
         } catch {

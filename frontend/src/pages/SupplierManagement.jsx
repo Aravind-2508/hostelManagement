@@ -1,3 +1,4 @@
+﻿import API_URL from '../config/api';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
@@ -16,7 +17,7 @@ const SupplierManagement = () => {
     const fetchSuppliers = async () => {
         try {
             const config = { headers: { Authorization: `Bearer ${admin.token}` } };
-            const { data } = await axios.get('http://localhost:5000/api/suppliers', config);
+            const { data } = await axios.get(`${API_URL}/api/suppliers`, config);
             setSuppliers(data);
         } catch {
             toast('Error loading suppliers', 'error');
@@ -31,7 +32,7 @@ const SupplierManagement = () => {
         e.preventDefault();
         try {
             const config = { headers: { Authorization: `Bearer ${admin.token}` } };
-            await axios.post('http://localhost:5000/api/suppliers', formData, config);
+            await axios.post(`${API_URL}/api/suppliers`, formData, config);
             setShowModal(false);
             setFormData({ name: '', phone: '', email: '', contactPerson: '', address: '' });
             fetchSuppliers();

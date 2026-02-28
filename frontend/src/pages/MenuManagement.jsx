@@ -1,3 +1,4 @@
+﻿import API_URL from '../config/api';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
@@ -29,7 +30,7 @@ const MenuManagement = () => {
     const fetchMenu = async () => {
         try {
             const config = { headers: { Authorization: `Bearer ${admin.token}` } };
-            const { data } = await axios.get('http://localhost:5000/api/menu', config);
+            const { data } = await axios.get(`${API_URL}/api/menu`, config);
             setMenu(data);
             const current = data.find(m => m.day === selectedDay && m.mealType === selectedMeal);
             setFoodItems(current ? current.foodItems : '');
@@ -59,7 +60,7 @@ const MenuManagement = () => {
         setSaving(true);
         try {
             const config = { headers: { Authorization: `Bearer ${admin.token}` } };
-            await axios.post('http://localhost:5000/api/menu', {
+            await axios.post(`${API_URL}/api/menu`, {
                 day: selectedDay, mealType: selectedMeal, foodItems, ingredients
             }, config);
             toast(`${selectedDay} ${selectedMeal} saved successfully!`, 'success');

@@ -1,3 +1,4 @@
+﻿import API_URL from '../config/api';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
@@ -24,7 +25,7 @@ const NotificationManager = () => {
 
     const fetchAll = async () => {
         try {
-            const { data } = await axios.get('http://localhost:5000/api/notifications/admin/all', cfg);
+            const { data } = await axios.get(`${API_URL}/api/notifications/admin/all`, cfg);
             setNotifications(data);
         } catch (e) { console.error(e); }
     };
@@ -49,9 +50,9 @@ const NotificationManager = () => {
         try {
             const payload = { ...form, expiresAt: form.expiresAt || null };
             if (editId) {
-                await axios.put(`http://localhost:5000/api/notifications/${editId}`, payload, cfg);
+                await axios.put(`${API_URL}/api/notifications/${editId}`, payload, cfg);
             } else {
-                await axios.post('http://localhost:5000/api/notifications', payload, cfg);
+                await axios.post(`${API_URL}/api/notifications`, payload, cfg);
             }
             setShowModal(false);
             fetchAll();
@@ -62,7 +63,7 @@ const NotificationManager = () => {
 
     const handleDelete = async (id) => {
         if (!window.confirm('Delete this notification?')) return;
-        await axios.delete(`http://localhost:5000/api/notifications/${id}`, cfg);
+        await axios.delete(`${API_URL}/api/notifications/${id}`, cfg);
         fetchAll();
     };
 

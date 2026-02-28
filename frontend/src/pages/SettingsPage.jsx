@@ -1,3 +1,4 @@
+﻿import API_URL from '../config/api';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -50,7 +51,7 @@ const SettingsPage = () => {
         try {
             const cfg = { headers: { Authorization: `Bearer ${admin.token}` } };
             const { data } = await axios.put(
-                'http://localhost:5000/api/admin/profile',
+                `${API_URL}/api/admin/profile`,
                 { name: profileForm.name.trim(), email: profileForm.email.trim() },
                 cfg
             );
@@ -77,7 +78,7 @@ const SettingsPage = () => {
         try {
             const cfg = { headers: { Authorization: `Bearer ${admin.token}` } };
             await axios.put(
-                'http://localhost:5000/api/admin/change-password',
+                `${API_URL}/api/admin/change-password`,
                 { currentPassword: pwForm.currentPassword, newPassword: pwForm.newPassword },
                 cfg
             );

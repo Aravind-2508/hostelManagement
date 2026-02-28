@@ -1,3 +1,4 @@
+﻿import API_URL from '../config/api';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
@@ -31,7 +32,7 @@ const ExpenseTracker = () => {
     const fetchExpenses = async () => {
         try {
             const config = { headers: { Authorization: `Bearer ${admin.token}` } };
-            const { data } = await axios.get('http://localhost:5000/api/expenses', config);
+            const { data } = await axios.get(`${API_URL}/api/expenses`, config);
             setExpenses(data);
         } catch {
             toast('Failed to load expenses', 'error');
@@ -46,7 +47,7 @@ const ExpenseTracker = () => {
         e.preventDefault();
         try {
             const config = { headers: { Authorization: `Bearer ${admin.token}` } };
-            await axios.post('http://localhost:5000/api/expenses', formData, config);
+            await axios.post(`${API_URL}/api/expenses`, formData, config);
             setShowModal(false);
             setFormData({ title: '', amount: '', category: 'Grocery', description: '' });
             fetchExpenses();

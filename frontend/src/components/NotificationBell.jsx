@@ -1,3 +1,4 @@
+﻿import API_URL from '../config/api';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -33,7 +34,7 @@ const NotificationBell = () => {
 
     const fetchNotifs = useCallback(async () => {
         try {
-            const { data } = await axios.get('http://localhost:5000/api/admin-notifications', cfg);
+            const { data } = await axios.get(`${API_URL}/api/admin-notifications`, cfg);
             setNotifications(data);
         } catch (e) {
             console.error('Failed to fetch admin notifications', e);
@@ -72,14 +73,14 @@ const NotificationBell = () => {
 
     const markAllRead = async () => {
         try {
-            await axios.patch('http://localhost:5000/api/admin-notifications/mark-all-read', {}, cfg);
+            await axios.patch(`${API_URL}/api/admin-notifications/mark-all-read`, {}, cfg);
             setNotifications(prev => prev.map(n => ({ ...n, read: true })));
         } catch (e) { console.error(e); }
     };
 
     const markRead = async (id) => {
         try {
-            await axios.patch(`http://localhost:5000/api/admin-notifications/${id}/read`, {}, cfg);
+            await axios.patch(`${API_URL}/api/admin-notifications/${id}/read`, {}, cfg);
             setNotifications(prev => prev.map(n => n._id === id ? { ...n, read: true } : n));
         } catch (e) { console.error(e); }
     };
@@ -87,7 +88,7 @@ const NotificationBell = () => {
     const dismiss = async (id, e) => {
         e.stopPropagation();
         try {
-            await axios.delete(`http://localhost:5000/api/admin-notifications/${id}`, cfg);
+            await axios.delete(`${API_URL}/api/admin-notifications/${id}`, cfg);
             setNotifications(prev => prev.filter(n => n._id !== id));
         } catch (e) { console.error(e); }
     };

@@ -1,3 +1,4 @@
+﻿import API_URL from '../config/api';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
@@ -20,8 +21,8 @@ const GroceryCalculator = () => {
             try {
                 const config = { headers: { Authorization: `Bearer ${admin.token}` } };
                 const [resStudents, resMenu] = await Promise.all([
-                    axios.get('http://localhost:5000/api/students', config),
-                    axios.get('http://localhost:5000/api/menu', config)
+                    axios.get(`${API_URL}/api/students`, config),
+                    axios.get(`${API_URL}/api/menu`, config)
                 ]);
                 setStudents(resStudents.data);
                 setMenu(resMenu.data);
