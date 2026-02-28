@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import API_URL from '../config/api';
 import {
     GraduationCap, Utensils, LogOut, User, BedDouble,
     CalendarDays, Sun, Coffee, Moon, ChevronRight,
