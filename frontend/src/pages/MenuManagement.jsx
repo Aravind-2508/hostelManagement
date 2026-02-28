@@ -57,15 +57,23 @@ const MenuManagement = () => {
     };
 
     const handleSave = async () => {
+        if (!foodItems.trim()) {
+            toast('Please enter at least one food item', 'error');
+            return;
+        }
         setSaving(true);
         try {
             const config = { headers: { Authorization: `Bearer ${admin.token}` } };
+            // Strip out any ingredient rows with empty names
+            const cleanIngredients = ingredients.filter(ing => ing.name && ing.name.trim() !== '');
             await axios.post(`${API_URL}/api/menu`, {
-                day: selectedDay, mealType: selectedMeal, foodItems, ingredients
+                day: selectedDay, mealType: selectedMeal, foodItems, ingredients: cleanIngredients
             }, config);
+            setIngredients(cleanIngredients); // keep UI in sync
             toast(`${selectedDay} ${selectedMeal} saved successfully!`, 'success');
-        } catch {
-            toast('Error saving menu', 'error');
+            fetchMenu();
+        } catch (err) {
+            toast(err.response?.data?.message || 'Error saving menu', 'error');
         } finally {
             setSaving(false);
         }

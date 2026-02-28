@@ -4,25 +4,39 @@ const Expense = require('../models/Expense');
 // @route   GET /api/expenses
 // @access  Private
 const getExpenses = async (req, res) => {
-    const expenses = await Expense.find({});
-    res.json(expenses);
+    try {
+        const expenses = await Expense.find({}).sort({ date: -1 });
+        res.json(expenses);
+    } catch (error) {
+        console.error('Get expenses error:', error);
+        res.status(500).json({ message: 'Server error fetching expenses' });
+    }
 };
 
 // @desc    Add new expense
 // @route   POST /api/expenses
 // @access  Private
 const addExpense = async (req, res) => {
-    const { title, amount, category, description, date } = req.body;
+    try {
+        const { title, amount, category, description, date } = req.body;
 
-    const expense = await Expense.create({
-        title,
-        amount,
-        category,
-        description,
-        date,
-    });
+        if (!title || !amount || !category) {
+            return res.status(400).json({ message: 'title, amount and category are required' });
+        }
 
-    res.status(201).json(expense);
+        const expense = await Expense.create({
+            title,
+            amount: Number(amount),
+            category,
+            description: description || '',
+            date: date || Date.now(),
+        });
+
+        res.status(201).json(expense);
+    } catch (error) {
+        console.error('Add expense error:', error);
+        res.status(500).json({ message: error.message || 'Error adding expense' });
+    }
 };
 
 module.exports = { getExpenses, addExpense };
