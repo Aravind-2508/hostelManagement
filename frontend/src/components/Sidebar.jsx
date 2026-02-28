@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
     LayoutDashboard, Users, Utensils, ShoppingCart,
-    Wallet, Truck, LogOut, Sparkles, MessageSquareWarning, X
+    Wallet, Truck, LogOut, Sparkles, MessageSquareWarning, X, Bell
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -32,6 +32,7 @@ const navGroups = [
         label: 'Feedback',
         items: [
             { title: 'Complaints', path: '/complaints', icon: MessageSquareWarning },
+            { title: 'Notifications', path: '/notifications', icon: Bell },
         ]
     },
 ];

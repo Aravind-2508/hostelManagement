@@ -13,6 +13,7 @@ const pageTitles = {
     '/expenses': 'Expense Tracker',
     '/suppliers': 'Supplier Management',
     '/complaints': 'Complaints & Suggestions',
+    '/notifications': 'Notification Manager',
     '/settings': 'Account Settings',
 };
 
