@@ -20,7 +20,6 @@ const StudentLogin = () => {
                 rollNo: rollNo.trim(),
                 password,
             });
-            // Save student info in sessionStorage (not localStorage to auto-expire)
             sessionStorage.setItem('studentInfo', JSON.stringify(data));
             navigate('/student-dashboard');
         } catch (err) {
@@ -54,10 +53,11 @@ const StudentLogin = () => {
                             type="text"
                             value={rollNo}
                             onChange={(e) => setRollNo(e.target.value)}
-                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
+                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-gray-900 bg-white placeholder-gray-400"
                             placeholder="e.g. 101"
                             required
                             disabled={loading}
+                            autoComplete="username"
                         />
                     </div>
 
@@ -67,10 +67,11 @@ const StudentLogin = () => {
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
+                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-gray-900 bg-white placeholder-gray-400"
                             placeholder="Enter your password"
                             required
                             disabled={loading}
+                            autoComplete="current-password"
                         />
                     </div>
 

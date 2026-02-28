@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -21,14 +22,18 @@ import ComplaintManager from './pages/ComplaintManager';
 // No props needed down to Topbar — it reads from context directly.
 const AppLayout = ({ children }) => {
   const { admin } = useAuth();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   if (!admin) return <Navigate to="/login" replace />;
 
   return (
     <div className="flex bg-base min-h-screen">
-      <Sidebar />
+      <Sidebar
+        mobileOpen={sidebarOpen}
+        onMobileClose={() => setSidebarOpen(false)}
+      />
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <Topbar />
-        <main className="flex-1 overflow-y-auto p-6 md:p-8 animate-fadeInUp">
+        <Topbar onMenuClick={() => setSidebarOpen(true)} />
+        <main className="flex-1 overflow-y-auto p-4 md:p-8 animate-fadeInUp">
           <div className="max-w-screen-xl mx-auto">
             {children}
           </div>

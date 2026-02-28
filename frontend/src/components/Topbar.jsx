@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Search, Moon, Sun } from 'lucide-react';
+import { Search, Moon, Sun, Menu } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import NotificationBell from './NotificationBell';
 import ProfileDropdown from './ProfileDropdown';
@@ -26,25 +26,34 @@ const useClock = () => {
     return now;
 };
 
-const Topbar = () => {
+const Topbar = ({ onMenuClick }) => {
     const location = useLocation();
     const { isDark, toggleTheme } = useTheme();
     const now = useClock();
 
     const title = pageTitles[location.pathname] || 'Dashboard';
     const timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
-    const dateStr = now.toLocaleDateString('en-IN', { weekday: 'long', month: 'long', day: 'numeric' });
+    const dateStr = now.toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric' });
 
     return (
-        <header className="glass sticky top-0 z-30 px-6 py-3.5">
-            <div className="flex items-center justify-between gap-4">
+        <header className="glass sticky top-0 z-30 px-4 md:px-6 py-3.5">
+            <div className="flex items-center justify-between gap-3">
+
+                {/* Hamburger — mobile only */}
+                <button
+                    onClick={onMenuClick}
+                    className="md:hidden p-2 rounded-xl text-sub hover:bg-muted transition flex-shrink-0"
+                    aria-label="Open navigation menu"
+                >
+                    <Menu size={20} />
+                </button>
 
                 {/* Left — page title + live date */}
-                <div className="min-w-0">
-                    <h1 className="text-lg font-bold text-base leading-tight truncate">
+                <div className="min-w-0 flex-1">
+                    <h1 className="text-base md:text-lg font-bold text-base leading-tight truncate">
                         {title}
                     </h1>
-                    <p className="text-xs text-muted">
+                    <p className="text-xs text-muted hidden sm:block">
                         {dateStr} · {timeStr}
                     </p>
                 </div>
@@ -52,7 +61,7 @@ const Topbar = () => {
                 {/* Right — actions row */}
                 <div className="flex items-center gap-1.5 flex-shrink-0">
 
-                    {/* Search */}
+                    {/* Search — desktop only */}
                     <div className="hidden md:flex items-center gap-2 bg-muted rounded-xl px-3 py-2 w-52 border border-transparent focus-within:border-indigo-300 focus-within:bg-card transition-all group">
                         <Search size={14} className="text-muted flex-shrink-0 group-focus-within:text-indigo-500 transition-colors" />
                         <input
@@ -76,10 +85,10 @@ const Topbar = () => {
                         </span>
                     </button>
 
-                    {/* Notification bell (self-contained with dropdown) */}
+                    {/* Notification bell */}
                     <NotificationBell />
 
-                    {/* Profile / account dropdown (self-contained) */}
+                    {/* Profile dropdown */}
                     <ProfileDropdown />
                 </div>
             </div>
