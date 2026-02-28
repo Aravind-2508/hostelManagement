@@ -9,7 +9,21 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+// Allow requests from local dev and the deployed Render frontend
+const allowedOrigins = [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://hostelmanagement-bqk5.onrender.com',
+];
+app.use(cors({
+    origin: function (origin, callback) {
+        // Allow requests with no origin (e.g. curl, mobile apps)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) return callback(null, true);
+        callback(new Error(`CORS: Origin ${origin} not allowed`));
+    },
+    credentials: true,
+}));
 app.use(express.json());
 
 app.get('/', (req, res) => {
