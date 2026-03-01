@@ -150,7 +150,58 @@ const StudentManagement = () => {
                     </div>
                 </div>
 
-                <div className="overflow-x-auto">
+                {/* ── Mobile card list (shown below md) ── */}
+                <div className="md:hidden divide-y divide-gray-100">
+                    {loading ? (
+                        Array.from({ length: 3 }).map((_, i) => (
+                            <div key={i} className="p-4 space-y-2">
+                                <div className="skeleton h-4 w-40 rounded" />
+                                <div className="skeleton h-3 w-28 rounded" />
+                            </div>
+                        ))
+                    ) : filteredStudents.length === 0 ? (
+                        <EmptyState icon={Users} title="No students found" description="Try a different search or add a new student." />
+                    ) : filteredStudents.map((s) => (
+                        <div key={s._id} className="p-4 flex items-center gap-3">
+                            {/* Avatar */}
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-400 to-violet-500 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                                {s.name[0].toUpperCase()}
+                            </div>
+
+                            {/* Info */}
+                            <div className="flex-1 min-w-0">
+                                <p className="font-semibold text-sm text-gray-900 truncate">{s.name}</p>
+                                <p className="text-xs text-gray-500">Roll: {s.rollNo} · Room: {s.roomNo}</p>
+                                {s.phone && <p className="text-xs text-gray-400">{s.phone}</p>}
+                                <span className={`inline-block mt-1 text-xs font-semibold px-2 py-0.5 rounded-full ${s.status === 'Active'
+                                    ? 'bg-emerald-100 text-emerald-700'
+                                    : 'bg-red-100 text-red-600'
+                                    }`}>{s.status}</span>
+                            </div>
+
+                            {/* Action buttons — always visible on mobile */}
+                            <div className="flex items-center gap-1 flex-shrink-0">
+                                <button
+                                    onClick={() => openEditModal(s)}
+                                    className="p-2.5 rounded-xl text-indigo-600 bg-indigo-50 hover:bg-indigo-100 transition"
+                                    title="Edit"
+                                >
+                                    <Edit size={16} />
+                                </button>
+                                <button
+                                    onClick={() => deleteStudent(s._id, s.name)}
+                                    className="p-2.5 rounded-xl text-red-500 bg-red-50 hover:bg-red-100 transition"
+                                    title="Delete"
+                                >
+                                    <Trash2 size={16} />
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* ── Desktop table (shown at md+) ── */}
+                <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left">
                         <thead>
                             <tr className="border-b border-base">
@@ -219,6 +270,7 @@ const StudentManagement = () => {
                         </tbody>
                     </table>
                 </div>
+
             </Card>
 
             {/* Add / Edit Modal */}
@@ -227,6 +279,7 @@ const StudentManagement = () => {
                 onClose={() => setShowModal(false)}
                 title={editStudent ? 'Edit Student' : 'Add New Student'}
                 size="lg"
+
             >
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
