@@ -14,6 +14,8 @@ const pageTitles = {
     '/suppliers': 'Supplier Management',
     '/complaints': 'Complaints & Suggestions',
     '/notifications': 'Notification Manager',
+    '/payments': 'Fee Management',
+    '/meal-ratings': 'Meal Feedback Analytics',
     '/settings': 'Account Settings',
 };
 

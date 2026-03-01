@@ -17,6 +17,8 @@ import SupplierManagement from './pages/SupplierManagement';
 import SettingsPage from './pages/SettingsPage';
 import ComplaintManager from './pages/ComplaintManager';
 import NotificationManager from './pages/NotificationManager';
+import PaymentManagement from './pages/PaymentManagement';
+import MealRatings from './pages/MealRatings';
 
 // ── Protected admin layout ───────────────────────────────────────────────────
 // Dark mode is handled by ThemeContext (adds .dark to <html> element).
@@ -73,6 +75,8 @@ const App = () => (
             <Route path="/settings" element={<AppLayout><SettingsPage /></AppLayout>} />
             <Route path="/complaints" element={<AppLayout><ComplaintManager /></AppLayout>} />
             <Route path="/notifications" element={<AppLayout><NotificationManager /></AppLayout>} />
+            <Route path="/payments" element={<AppLayout><PaymentManagement /></AppLayout>} />
+            <Route path="/meal-ratings" element={<AppLayout><MealRatings /></AppLayout>} />
 
             {/* Catch-all */}
             <Route path="*" element={<Navigate to="/" replace />} />

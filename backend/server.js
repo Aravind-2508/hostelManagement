@@ -43,6 +43,8 @@ app.use('/api/feedback', require('./routes/feedbackRoutes'));
 app.use('/api/notifications', require('./routes/notificationRoutes'));
 app.use('/api/complaints', require('./routes/complaintRoutes'));
 app.use('/api/admin-notifications', require('./routes/adminNotificationRoutes'));
+app.use('/api/ratings', require('./routes/mealRatingRoutes'));
+app.use('/api/payments', require('./routes/paymentRoutes'));
 
 // ─── Error Handling ───────────────────────────────────────────────────────────
 app.use(notFound);

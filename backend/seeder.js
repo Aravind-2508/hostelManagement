@@ -27,10 +27,11 @@ const seedData = async () => {
         // ─── Create Sample Students ──────────────────────────────────────
         await Student.create([
             { name: 'John Doe', rollNo: '101', roomNo: 'A-10', password: 'john101', status: 'Active' },
+            { name: 'revanth', rollNo: '532', roomNo: '215', password: 'pass123', status: 'Active' },
             { name: 'Jane Smith', rollNo: '102', roomNo: 'A-11', password: 'jane102', status: 'Active' },
             { name: 'Bob Wilson', rollNo: '103', roomNo: 'B-05', password: 'bob103', status: 'Active' },
         ]);
-        console.log('✅ Students Created: 101/john101 | 102/jane102 | 103/bob103');
+        console.log('✅ Students Created: 101/john101 | 532/pass123 | 102/jane102 | 103/bob103');
 
         // ─── Seed Weekly Menu (7 days × 3 meals) ─────────────────────────
         const weeklyMenu = [

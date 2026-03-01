@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
     LayoutDashboard, Users, Utensils, ShoppingCart,
-    Wallet, Truck, LogOut, Sparkles, MessageSquareWarning, X, Bell
+    Wallet, Truck, LogOut, Sparkles, MessageSquareWarning, X, Bell,
+    CreditCard, Star
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -24,6 +25,7 @@ const navGroups = [
     {
         label: 'Finance',
         items: [
+            { title: 'Fee Management', path: '/payments', icon: CreditCard },
             { title: 'Expenses', path: '/expenses', icon: Wallet },
             { title: 'Suppliers', path: '/suppliers', icon: Truck },
         ]
@@ -31,6 +33,7 @@ const navGroups = [
     {
         label: 'Feedback',
         items: [
+            { title: 'Meal Ratings', path: '/meal-ratings', icon: Star },
             { title: 'Complaints', path: '/complaints', icon: MessageSquareWarning },
             { title: 'Notifications', path: '/notifications', icon: Bell },
         ]

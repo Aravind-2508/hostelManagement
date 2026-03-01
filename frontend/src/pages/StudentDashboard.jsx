@@ -7,8 +7,11 @@ import {
     CalendarDays, Sun, Coffee, Moon, ChevronRight,
     Bell, Star, ThumbsUp, ThumbsDown, Send,
     ClipboardList, CheckCircle, Clock, AlertCircle,
-    Info, AlertTriangle, Megaphone, Zap, X
+    Info, AlertTriangle, Megaphone, Zap, X, Wallet, IndianRupee, CreditCard, Download, FileText
 } from 'lucide-react';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { Card, Badge, Button, SectionHeading } from '../components/ui/Components';
 
 // ─── Constants ────────────────────────────────────────────────────
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -64,6 +67,7 @@ const StudentDashboard = () => {
     const [notifications, setNotifications] = useState([]);
     const [unreadCount, setUnreadCount] = useState(0);
     const [complaints, setComplaints] = useState([]);
+    const [payments, setPayments] = useState([]);
     const [activeDay, setActiveDay] = useState('');
     const [today, setToday] = useState('');
     const [activeTab, setActiveTab] = useState('menu');
@@ -111,6 +115,11 @@ const StudentDashboard = () => {
         setComplaints(data);
     }, []);
 
+    const fetchPayments = useCallback(async () => {
+        const { data } = await axios.get(`${API_URL}/api/payments/me`, { headers: authHeader() });
+        setPayments(data);
+    }, []);
+
     useEffect(() => {
         const info = getStudentInfo();
         if (!info) { navigate('/student-login'); return; }
@@ -121,7 +130,12 @@ const StudentDashboard = () => {
         setToday(todayName);
         setActiveDay(todayName);
 
-        Promise.all([fetchMenu(), fetchMyFeedback(), fetchNotifications(), fetchComplaints()])
+        Promise.all([fetchMenu(), fetchMyFeedback(), fetchNotifications(), fetchComplaints(), fetchPayments()])
+            .catch(err => {
+                if (err.response?.status === 401 && err.response?.data?.message === 'Student not found') {
+                    handleLogout();
+                }
+            })
             .finally(() => setLoading(false));
     }, [navigate]);
 
@@ -130,6 +144,56 @@ const StudentDashboard = () => {
     const getMyFb = (day, mealType) => myFeedback.find(f => f.day === day && f.mealType === mealType);
 
     const handleLogout = () => { sessionStorage.removeItem('studentInfo'); navigate('/student-login'); };
+
+    // ── PDF Receipt Export ──────────────────────────────────────
+    const exportReceipt = (p) => {
+        const doc = new jsPDF();
+        doc.setFillColor(5, 150, 105); // emerald-600
+        doc.rect(0, 0, 210, 40, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(22);
+        doc.text('PAYMENT RECEIPT', 105, 25, { align: 'center' });
+
+        doc.setTextColor(0, 0, 0);
+        doc.setFontSize(16);
+        doc.text('Hostel Food Management', 20, 55);
+        doc.setFontSize(10);
+        doc.setTextColor(100);
+        doc.text(`Receipt No: ${p._id.slice(-8).toUpperCase()}`, 150, 55);
+        doc.text(`Date: ${new Date(p.paymentDate).toLocaleDateString()}`, 150, 60);
+
+        doc.setDrawColor(240);
+        doc.line(20, 65, 190, 65);
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0);
+        doc.text('Student Details:', 20, 75);
+        doc.setFontSize(10);
+        doc.text(`Name: ${student.name}`, 25, 82);
+        doc.text(`Roll No: ${student.rollNo}`, 25, 87);
+        doc.text(`Room No: ${student.roomNo}`, 25, 92);
+
+        autoTable(doc, {
+            startY: 105,
+            head: [['Description', 'Month/Year', 'Method', 'Amount']],
+            body: [
+                ['Hostel Mess Fees', `${p.month} ${p.year}`, p.method, `INR ${p.amount.toLocaleString()}`]
+            ],
+            headStyles: { fillColor: [5, 150, 105], textColor: [255, 255, 255] },
+            theme: 'grid'
+        });
+
+        const finalY = doc.lastAutoTable.finalY + 15;
+        doc.setFontSize(14);
+        doc.text(`Total Amount: INR ${p.amount.toLocaleString()}`, 130, finalY);
+        doc.setFontSize(10);
+        doc.text(`Status: ${p.status}`, 130, finalY + 7);
+
+        doc.setTextColor(150);
+        doc.setFontSize(9);
+        doc.text('Computer Generated Receipt - No Signature Required', 105, 280, { align: 'center' });
+
+        doc.save(`Receipt_${student.rollNo}_${p.month}.pdf`);
+    };
 
     // ── Open feedback modal ──────────────────────────────────────
     const openFeedback = (day, mealType, foodItems) => {
@@ -154,7 +218,13 @@ const StudentDashboard = () => {
             await fetchMyFeedback();
             setFeedbackModal(null);
         } catch (e) {
-            alert(e.response?.data?.message || 'Error submitting feedback');
+            const msg = e.response?.data?.message || 'Error submitting feedback';
+            if (msg === 'Student not found') {
+                alert('Session expired or student no longer exists. Please login again.');
+                handleLogout();
+            } else {
+                alert(msg);
+            }
         } finally { setFbSaving(false); }
     };
 
@@ -253,7 +323,9 @@ const StudentDashboard = () => {
                 <div className="flex space-x-2 mb-6 overflow-x-auto pb-1">
                     {[
                         { key: 'menu', label: '🍽️ Menu' },
-                        { key: 'notifications', label: `🔔 Notifications${unreadCount > 0 ? ` (${unreadCount})` : ''}` },
+                        { key: 'ratings', label: '⭐ Ratings' },
+                        { key: 'notifications', label: `🔔 Notifs${unreadCount > 0 ? ` (${unreadCount})` : ''}` },
+                        { key: 'payments', label: '💰 Fees' },
                         { key: 'complaints', label: '📝 Complaints' },
                     ].map(tab => (
                         <button key={tab.key}
@@ -418,10 +490,74 @@ const StudentDashboard = () => {
                 )}
 
                 {/* ══════════════════════════════════════════════ */}
-                {/* TAB 2 — NOTIFICATIONS                         */}
+                {/* TAB 2 — RATINGS                               */}
                 {/* ══════════════════════════════════════════════ */}
+                {activeTab === 'ratings' && (
+                    <div className="space-y-6">
+                        <section>
+                            <SectionHeading title="Today's Meal Feedback" icon={Star} />
+                            <p className="text-xs text-gray-400 mb-4 ml-1">How was the food today? Share your thoughts!</p>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                                {MEALS.map(mealType => {
+                                    const meal = allMenu.find(m => m.day === today && m.mealType === mealType);
+                                    const myFb = getMyFb(today, mealType);
+                                    if (!meal) return null;
+                                    return (
+                                        <Card key={mealType} className="border-2 border-emerald-50">
+                                            <div className="flex justify-between items-start mb-3">
+                                                <div>
+                                                    <p className="font-bold text-gray-800">{mealType}</p>
+                                                    <p className="text-[10px] text-gray-400">{meal.foodItems}</p>
+                                                </div>
+                                                {myFb && <Badge variant="active" size="xs">Rated</Badge>}
+                                            </div>
+                                            {myFb ? (
+                                                <div className="space-y-2">
+                                                    <div className="flex items-center justify-between">
+                                                        <StarDisplay value={myFb.rating} />
+                                                        <span className="text-xs">{myFb.liked ? '👍' : '👎'}</span>
+                                                    </div>
+                                                    <Button variant="outline" size="sm" className="w-full text-xs h-8" onClick={() => openFeedback(today, mealType, meal.foodItems)}>Update Rating</Button>
+                                                </div>
+                                            ) : (
+                                                <Button className="w-full h-8 text-xs" onClick={() => openFeedback(today, mealType, meal.foodItems)}>⭐ Rate Now</Button>
+                                            )}
+                                        </Card>
+                                    );
+                                })}
+                            </div>
+                        </section>
+
+                        <section>
+                            <SectionHeading title="Feedback History" icon={ClipboardList} />
+                            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mt-4">
+                                {myFeedback.length === 0 ? (
+                                    <div className="text-center py-12 text-gray-300">
+                                        <Star size={32} className="mx-auto mb-2 opacity-30" />
+                                        <p className="text-sm">No ratings given yet</p>
+                                    </div>
+                                ) : (
+                                    <div className="divide-y divide-gray-50 max-h-[400px] overflow-y-auto">
+                                        {[...myFeedback].reverse().map(fb => (
+                                            <div key={fb._id} className="p-4 hover:bg-gray-50 transition flex justify-between items-center">
+                                                <div>
+                                                    <p className="font-bold text-sm text-gray-800">{fb.day} {fb.mealType}</p>
+                                                    <p className="text-xs text-gray-400">{new Date(fb.createdAt).toLocaleDateString()}</p>
+                                                </div>
+                                                <div className="text-right">
+                                                    <StarDisplay value={fb.rating} />
+                                                    {fb.comment && <p className="text-[10px] text-gray-500 italic truncate max-w-[150px] mt-1">"{fb.comment}"</p>}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </section>
+                    </div>
+                )}
                 {activeTab === 'notifications' && (
-                    <div>
+                    <div className="space-y-6">
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-lg font-bold text-gray-800">
                                 Notifications
@@ -484,7 +620,75 @@ const StudentDashboard = () => {
                 )}
 
                 {/* ══════════════════════════════════════════════ */}
-                {/* TAB 3 — COMPLAINTS                            */}
+                {/* TAB 3 — PAYMENTS                            */}
+                {/* ══════════════════════════════════════════════ */}
+                {activeTab === 'payments' && (
+                    <div className="space-y-6">
+                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                            <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+                                <div className="flex items-center space-x-3">
+                                    <div className="w-9 h-9 bg-indigo-100 rounded-xl flex items-center justify-center">
+                                        <Wallet size={18} className="text-indigo-600" />
+                                    </div>
+                                    <div>
+                                        <h2 className="font-bold text-gray-800">My Fee Payments</h2>
+                                        <p className="text-xs text-gray-400">History of your mess fee payments</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {payments.length === 0 ? (
+                                <div className="text-center py-20 text-gray-300">
+                                    <IndianRupee size={48} className="mx-auto mb-3" />
+                                    <p className="font-medium">No payment history found</p>
+                                </div>
+                            ) : (
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-sm">
+                                        <thead><tr className="bg-gray-50 border-b border-gray-100">
+                                            <th className="px-5 py-3 text-left font-bold text-gray-500">Period</th>
+                                            <th className="px-5 py-3 text-left font-bold text-gray-500">Amount</th>
+                                            <th className="px-5 py-3 text-left font-bold text-gray-500">Method</th>
+                                            <th className="px-5 py-3 text-left font-bold text-gray-500">Status</th>
+                                            <th className="px-5 py-3 text-left font-bold text-gray-500">Date</th>
+                                            <th className="px-5 py-3 text-center font-bold text-gray-500">Action</th>
+                                        </tr></thead>
+                                        <tbody className="divide-y divide-gray-50">
+                                            {payments.map(p => (
+                                                <tr key={p._id} className="hover:bg-gray-50/50">
+                                                    <td className="px-5 py-4 font-bold text-gray-800">{p.month} {p.year}</td>
+                                                    <td className="px-5 py-4 font-black">₹{p.amount.toLocaleString()}</td>
+                                                    <td className="px-5 py-4 text-gray-600"><span className="bg-gray-100 px-2 py-0.5 rounded text-xs">{p.method}</span></td>
+                                                    <td className="px-5 py-4">
+                                                        <span className={`text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider ${p.status === 'Paid' ? 'bg-emerald-100 text-emerald-700' :
+                                                            p.status === 'Partial' ? 'bg-amber-100 text-amber-700' :
+                                                                'bg-red-100 text-red-700'
+                                                            }`}>
+                                                            {p.status}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-5 py-4 text-gray-400 text-xs">{new Date(p.paymentDate).toLocaleDateString()}</td>
+                                                    <td className="px-5 py-4 text-center">
+                                                        <button
+                                                            onClick={() => exportReceipt(p)}
+                                                            className="inline-flex items-center space-x-1.5 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 px-3 py-1.5 rounded-lg transition text-xs font-bold"
+                                                        >
+                                                            <Download size={14} />
+                                                            <span>Receipt</span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+
+                {/* ══════════════════════════════════════════════ */}
+                {/* TAB 4 — COMPLAINTS                            */}
                 {/* ══════════════════════════════════════════════ */}
                 {activeTab === 'complaints' && (
                     <div className="space-y-6">
