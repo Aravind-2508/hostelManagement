@@ -58,6 +58,17 @@ body {
   transition: background-color 0.3s ease, color 0.2s ease;
 }
 
+input, textarea, select {
+  color: var(--text-primary) !important;
+  background-color: var(--input-bg) !important;
+}
+
+/* Ensure placeholder visibility */
+::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
 /* ── Premium scrollbar ── */
 ::-webkit-scrollbar {
   width: 6px;

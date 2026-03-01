@@ -31,14 +31,14 @@ const StudentLogin = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-emerald-50 px-4">
-            <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
+        <div className="min-h-screen flex items-center justify-center bg-base px-4 transition-colors">
+            <div className="max-w-md w-full bg-card rounded-2xl shadow-xl p-8 border border-base">
                 <div className="text-center mb-10">
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full mb-4">
                         <GraduationCap size={32} />
                     </div>
-                    <h1 className="text-3xl font-bold text-gray-900">Student Login</h1>
-                    <p className="text-gray-500 mt-2">Hostel Food Management — Student Portal</p>
+                    <h1 className="text-3xl font-bold text-base">Student Login</h1>
+                    <p className="text-sub mt-2">Hostel Food Management — Student Portal</p>
                 </div>
 
                 {error && (
@@ -49,12 +49,12 @@ const StudentLogin = () => {
 
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Roll Number</label>
+                        <label className="block text-sm font-medium text-sub mb-2">Roll Number</label>
                         <input
                             type="text"
                             value={rollNo}
                             onChange={(e) => setRollNo(e.target.value)}
-                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-gray-900 bg-white placeholder-gray-400"
+                            className="w-full px-4 py-3 rounded-lg border border-base focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-base bg-card placeholder-slate-400"
                             placeholder="e.g. 101"
                             required
                             disabled={loading}
@@ -63,13 +63,13 @@ const StudentLogin = () => {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <label className="block text-sm font-medium text-sub mb-2">Password</label>
                         <div className="relative">
                             <input
                                 type={showPassword ? 'text' : 'password'}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full px-4 py-3 pr-12 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-gray-900 bg-white placeholder-gray-400"
+                                className="w-full px-4 py-3 pr-12 rounded-lg border border-base focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-base bg-card placeholder-slate-400"
                                 placeholder="Enter your password"
                                 required
                                 disabled={loading}
@@ -78,7 +78,7 @@ const StudentLogin = () => {
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors p-1"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-sub transition-colors p-1"
                                 tabIndex={-1}
                                 aria-label={showPassword ? 'Hide password' : 'Show password'}
                             >
@@ -99,7 +99,7 @@ const StudentLogin = () => {
                 <div className="mt-6 text-center">
                     <Link
                         to="/login"
-                        className="text-sm text-gray-500 hover:text-indigo-600 transition-colors"
+                        className="text-sm text-sub hover:text-indigo-600 transition-colors"
                     >
                         Admin Login →
                     </Link>

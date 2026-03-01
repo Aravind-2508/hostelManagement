@@ -256,7 +256,7 @@ const StudentDashboard = () => {
     if (!student) return null;
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-base transition-colors duration-300">
 
             {/* ── Header ───────────────────────────────────────── */}
             <header className="bg-gradient-to-r from-emerald-700 to-emerald-600 text-white px-6 py-4 flex items-center justify-between shadow-lg sticky top-0 z-40">
@@ -299,23 +299,23 @@ const StudentDashboard = () => {
             <div className="max-w-6xl mx-auto px-5 py-6">
 
                 {/* ── Profile Card ─────────────────────────────── */}
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-6">
+                <div className="bg-card rounded-2xl shadow-sm border border-base p-5 mb-6">
                     <div className="flex items-center space-x-3 mb-4">
                         <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center">
                             <User size={22} className="text-emerald-600" />
                         </div>
                         <div>
-                            <p className="font-black text-gray-900 text-lg">{student.name}</p>
-                            <p className="text-gray-400 text-sm">Roll No: <span className="font-mono font-semibold">{student.rollNo}</span></p>
+                            <p className="font-black text-base text-lg">{student.name}</p>
+                            <p className="text-sub text-sm">Roll No: <span className="font-mono font-semibold">{student.rollNo}</span></p>
                         </div>
                         <span className={`ml-auto inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${student.status === 'Active' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
                             <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${student.status === 'Active' ? 'bg-emerald-500' : 'bg-red-500'}`} />
                             {student.status}
                         </span>
                     </div>
-                    <div className="flex items-center space-x-2 text-sm text-gray-500">
+                    <div className="flex items-center space-x-2 text-sm text-sub">
                         <BedDouble size={14} className="text-emerald-500" />
-                        <span>Room <strong className="text-gray-700">{student.roomNo}</strong></span>
+                        <span>Room <strong className="text-base">{student.roomNo}</strong></span>
                     </div>
                 </div>
 
@@ -332,7 +332,7 @@ const StudentDashboard = () => {
                             onClick={() => setActiveTab(tab.key)}
                             className={`px-5 py-2.5 rounded-xl font-semibold text-sm whitespace-nowrap transition ${activeTab === tab.key
                                 ? 'bg-emerald-600 text-white shadow-md'
-                                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                                : 'bg-card text-sub border border-base hover:bg-muted'
                                 }`}
                         >
                             {tab.label}
@@ -345,7 +345,7 @@ const StudentDashboard = () => {
                 {/* ══════════════════════════════════════════════ */}
                 {activeTab === 'menu' && (
                     <div className="space-y-6">
-                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div className="bg-card rounded-2xl shadow-sm border border-base overflow-hidden">
                             {/* Header */}
                             <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
                                 <div className="flex items-center space-x-3">
@@ -353,8 +353,8 @@ const StudentDashboard = () => {
                                         <CalendarDays size={18} className="text-emerald-600" />
                                     </div>
                                     <div>
-                                        <h2 className="font-bold text-gray-800">Weekly Meal Menu</h2>
-                                        <p className="text-xs text-gray-400">Click a meal card to rate it</p>
+                                        <h2 className="font-bold text-base">Weekly Meal Menu</h2>
+                                        <p className="text-xs text-muted">Click a meal card to rate it</p>
                                     </div>
                                 </div>
                                 <span className="bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full">Today: {today}</span>
@@ -365,8 +365,8 @@ const StudentDashboard = () => {
                                 {DAYS.map(day => (
                                     <button key={day} onClick={() => setActiveDay(day)}
                                         className={`flex-shrink-0 px-4 py-3 text-sm font-semibold transition border-b-2 ${activeDay === day
-                                            ? 'border-emerald-500 text-emerald-700 bg-white'
-                                            : 'border-transparent text-gray-400 hover:text-gray-600 hover:bg-gray-100'
+                                            ? 'border-emerald-500 text-emerald-700 bg-card'
+                                            : 'border-transparent text-muted hover:text-sub hover:bg-muted'
                                             }`}
                                     >
                                         {day}
@@ -393,7 +393,7 @@ const StudentDashboard = () => {
                                                     </div>
                                                     <div>
                                                         <p className={`font-bold text-sm ${c_.text}`}>{mealType}</p>
-                                                        <p className="text-xs text-gray-400">{cfg_.time}</p>
+                                                        <p className="text-xs text-muted">{cfg_.time}</p>
                                                     </div>
                                                 </div>
                                                 {activeDay === today && (
@@ -408,14 +408,14 @@ const StudentDashboard = () => {
                                                         {meal.foodItems.split(',').map((item, i) => (
                                                             <div key={i} className="flex items-center space-x-2">
                                                                 <ChevronRight size={12} className={`${c_.icon} flex-shrink-0`} />
-                                                                <span className="text-gray-700 text-sm">{item.trim()}</span>
+                                                                <span className="text-base text-sm">{item.trim()}</span>
                                                             </div>
                                                         ))}
                                                     </div>
                                                     {/* Feedback section */}
                                                     {myFb ? (
                                                         <div className="mt-auto pt-3 border-t border-gray-200">
-                                                            <p className="text-xs text-gray-400 mb-1">Your feedback:</p>
+                                                            <p className="text-xs text-muted mb-1">Your feedback:</p>
                                                             <div className="flex items-center justify-between">
                                                                 <StarDisplay value={myFb.rating} />
                                                                 <div className="flex items-center space-x-1">
@@ -450,33 +450,33 @@ const StudentDashboard = () => {
                         </div>
 
                         {/* Full week table */}
-                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                            <div className="px-5 py-4 border-b border-gray-100">
-                                <h3 className="font-bold text-gray-800">📋 Full Week at a Glance</h3>
-                                <p className="text-xs text-gray-400 mt-0.5">Click any row to view that day in detail</p>
+                        <div className="bg-card rounded-2xl shadow-sm border border-base overflow-hidden">
+                            <div className="px-5 py-4 border-b border-base">
+                                <h3 className="font-bold text-base">📋 Full Week at a Glance</h3>
+                                <p className="text-xs text-muted mt-0.5">Click any row to view that day in detail</p>
                             </div>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-sm">
-                                    <thead><tr className="bg-gray-50">
-                                        <th className="px-4 py-3 text-left text-gray-500">Day</th>
-                                        {MEALS.map(m => <th key={m} className="px-4 py-3 text-left text-gray-500">{m}</th>)}
+                                    <thead><tr className="bg-subtle">
+                                        <th className="px-4 py-3 text-left text-sub">Day</th>
+                                        {MEALS.map(m => <th key={m} className="px-4 py-3 text-left text-sub">{m}</th>)}
                                     </tr></thead>
                                     <tbody>
                                         {DAYS.map((day, idx) => (
                                             <tr key={day} onClick={() => setActiveDay(day)}
-                                                className={`border-t border-gray-50 cursor-pointer transition ${day === today ? 'bg-emerald-50 hover:bg-emerald-100' :
-                                                    idx % 2 === 0 ? 'hover:bg-gray-50' : 'bg-gray-50/50 hover:bg-gray-100'
+                                                className={`border-t border-base cursor-pointer transition ${day === today ? 'bg-emerald-50 dark:bg-emerald-900/20 hover:bg-emerald-100 dark:hover:bg-emerald-900/30' :
+                                                    idx % 2 === 0 ? 'hover:bg-subtle' : 'bg-subtle/50 hover:bg-subtle'
                                                     }`}
                                             >
-                                                <td className="px-4 py-3 font-bold text-gray-800 whitespace-nowrap">
+                                                <td className="px-4 py-3 font-bold text-base whitespace-nowrap">
                                                     {day}
                                                     {day === today && <span className="ml-2 text-xs bg-emerald-500 text-white px-1.5 py-0.5 rounded-full">Today</span>}
                                                 </td>
                                                 {MEALS.map(mealType => {
                                                     const meal = getMeal(day, mealType);
                                                     return (
-                                                        <td key={mealType} className="px-4 py-3 text-gray-600 max-w-xs">
-                                                            {meal ? <span className="line-clamp-1">{meal.foodItems}</span> : <span className="text-gray-300">—</span>}
+                                                        <td key={mealType} className="px-4 py-3 text-sub max-w-xs">
+                                                            {meal ? <span className="line-clamp-1">{meal.foodItems}</span> : <span className="text-muted">—</span>}
                                                         </td>
                                                     );
                                                 })}
@@ -506,8 +506,8 @@ const StudentDashboard = () => {
                                         <Card key={mealType} className="border-2 border-emerald-50">
                                             <div className="flex justify-between items-start mb-3">
                                                 <div>
-                                                    <p className="font-bold text-gray-800">{mealType}</p>
-                                                    <p className="text-[10px] text-gray-400">{meal.foodItems}</p>
+                                                    <p className="font-bold text-base">{mealType}</p>
+                                                    <p className="text-[10px] text-muted">{meal.foodItems}</p>
                                                 </div>
                                                 {myFb && <Badge variant="active" size="xs">Rated</Badge>}
                                             </div>
@@ -530,19 +530,19 @@ const StudentDashboard = () => {
 
                         <section>
                             <SectionHeading title="Feedback History" icon={ClipboardList} />
-                            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mt-4">
+                            <div className="bg-card rounded-2xl shadow-sm border border-base overflow-hidden mt-4">
                                 {myFeedback.length === 0 ? (
-                                    <div className="text-center py-12 text-gray-300">
+                                    <div className="text-center py-12 text-muted">
                                         <Star size={32} className="mx-auto mb-2 opacity-30" />
                                         <p className="text-sm">No ratings given yet</p>
                                     </div>
                                 ) : (
-                                    <div className="divide-y divide-gray-50 max-h-[400px] overflow-y-auto">
+                                    <div className="divide-y divide-base max-h-[400px] overflow-y-auto">
                                         {[...myFeedback].reverse().map(fb => (
-                                            <div key={fb._id} className="p-4 hover:bg-gray-50 transition flex justify-between items-center">
+                                            <div key={fb._id} className="p-4 hover:bg-subtle transition flex justify-between items-center">
                                                 <div>
-                                                    <p className="font-bold text-sm text-gray-800">{fb.day} {fb.mealType}</p>
-                                                    <p className="text-xs text-gray-400">{new Date(fb.createdAt).toLocaleDateString()}</p>
+                                                    <p className="font-bold text-sm text-base">{fb.day} {fb.mealType}</p>
+                                                    <p className="text-xs text-muted">{new Date(fb.createdAt).toLocaleDateString()}</p>
                                                 </div>
                                                 <div className="text-right">
                                                     <StarDisplay value={fb.rating} />
@@ -559,7 +559,7 @@ const StudentDashboard = () => {
                 {activeTab === 'notifications' && (
                     <div className="space-y-6">
                         <div className="flex items-center justify-between mb-4">
-                            <h2 className="text-lg font-bold text-gray-800">
+                            <h2 className="text-lg font-bold text-base">
                                 Notifications
                                 {unreadCount > 0 && (
                                     <span className="ml-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">{unreadCount} new</span>
@@ -573,7 +573,7 @@ const StudentDashboard = () => {
                         </div>
 
                         {notifications.length === 0 ? (
-                            <div className="text-center py-20 text-gray-300">
+                            <div className="text-center py-20 text-muted">
                                 <Bell size={48} className="mx-auto mb-3" />
                                 <p className="font-medium">No notifications yet</p>
                             </div>
@@ -595,8 +595,8 @@ const StudentDashboard = () => {
                                                             <p className={`font-bold ${nc.text}`}>{n.title}</p>
                                                             <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${nc.badge}`}>{n.type}</span>
                                                         </div>
-                                                        <p className="text-sm text-gray-700 mt-1">{n.message}</p>
-                                                        <p className="text-xs text-gray-400 mt-1.5">
+                                                        <p className="text-sm text-base mt-1">{n.message}</p>
+                                                        <p className="text-xs text-muted mt-1.5">
                                                             {new Date(n.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                                                         </p>
                                                     </div>
@@ -604,7 +604,7 @@ const StudentDashboard = () => {
                                                 {!n.isRead && (
                                                     <button
                                                         onClick={() => markRead(n._id)}
-                                                        className="flex-shrink-0 text-xs bg-white/60 hover:bg-white text-gray-600 px-3 py-1.5 rounded-lg border border-gray-200 transition font-medium"
+                                                        className="flex-shrink-0 text-xs bg-card hover:bg-muted text-sub px-3 py-1.5 rounded-lg border border-base transition font-medium"
                                                     >
                                                         Mark read
                                                     </button>
@@ -624,41 +624,41 @@ const StudentDashboard = () => {
                 {/* ══════════════════════════════════════════════ */}
                 {activeTab === 'payments' && (
                     <div className="space-y-6">
-                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                            <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+                        <div className="bg-card rounded-2xl shadow-sm border border-base overflow-hidden">
+                            <div className="px-5 py-4 border-b border-base flex items-center justify-between">
                                 <div className="flex items-center space-x-3">
                                     <div className="w-9 h-9 bg-indigo-100 rounded-xl flex items-center justify-center">
                                         <Wallet size={18} className="text-indigo-600" />
                                     </div>
                                     <div>
-                                        <h2 className="font-bold text-gray-800">My Fee Payments</h2>
-                                        <p className="text-xs text-gray-400">History of your mess fee payments</p>
+                                        <h2 className="font-bold text-base">My Fee Payments</h2>
+                                        <p className="text-xs text-muted">History of your mess fee payments</p>
                                     </div>
                                 </div>
                             </div>
 
                             {payments.length === 0 ? (
-                                <div className="text-center py-20 text-gray-300">
+                                <div className="text-center py-20 text-muted">
                                     <IndianRupee size={48} className="mx-auto mb-3" />
                                     <p className="font-medium">No payment history found</p>
                                 </div>
                             ) : (
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-sm">
-                                        <thead><tr className="bg-gray-50 border-b border-gray-100">
-                                            <th className="px-5 py-3 text-left font-bold text-gray-500">Period</th>
-                                            <th className="px-5 py-3 text-left font-bold text-gray-500">Amount</th>
-                                            <th className="px-5 py-3 text-left font-bold text-gray-500">Method</th>
-                                            <th className="px-5 py-3 text-left font-bold text-gray-500">Status</th>
-                                            <th className="px-5 py-3 text-left font-bold text-gray-500">Date</th>
-                                            <th className="px-5 py-3 text-center font-bold text-gray-500">Action</th>
+                                        <thead><tr className="bg-subtle border-b border-base">
+                                            <th className="px-5 py-3 text-left font-bold text-sub">Period</th>
+                                            <th className="px-5 py-3 text-left font-bold text-sub">Amount</th>
+                                            <th className="px-5 py-3 text-left font-bold text-sub">Method</th>
+                                            <th className="px-5 py-3 text-left font-bold text-sub">Status</th>
+                                            <th className="px-5 py-3 text-left font-bold text-sub">Date</th>
+                                            <th className="px-5 py-3 text-center font-bold text-sub">Action</th>
                                         </tr></thead>
                                         <tbody className="divide-y divide-gray-50">
                                             {payments.map(p => (
-                                                <tr key={p._id} className="hover:bg-gray-50/50">
-                                                    <td className="px-5 py-4 font-bold text-gray-800">{p.month} {p.year}</td>
+                                                <tr key={p._id} className="hover:bg-subtle/50">
+                                                    <td className="px-5 py-4 font-bold text-base">{p.month} {p.year}</td>
                                                     <td className="px-5 py-4 font-black">₹{p.amount.toLocaleString()}</td>
-                                                    <td className="px-5 py-4 text-gray-600"><span className="bg-gray-100 px-2 py-0.5 rounded text-xs">{p.method}</span></td>
+                                                    <td className="px-5 py-4 text-sub"><span className="bg-muted px-2 py-0.5 rounded text-xs">{p.method}</span></td>
                                                     <td className="px-5 py-4">
                                                         <span className={`text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider ${p.status === 'Paid' ? 'bg-emerald-100 text-emerald-700' :
                                                             p.status === 'Partial' ? 'bg-amber-100 text-amber-700' :
@@ -667,7 +667,7 @@ const StudentDashboard = () => {
                                                             {p.status}
                                                         </span>
                                                     </td>
-                                                    <td className="px-5 py-4 text-gray-400 text-xs">{new Date(p.paymentDate).toLocaleDateString()}</td>
+                                                    <td className="px-5 py-4 text-muted text-xs">{new Date(p.paymentDate).toLocaleDateString()}</td>
                                                     <td className="px-5 py-4 text-center">
                                                         <button
                                                             onClick={() => exportReceipt(p)}
@@ -693,8 +693,8 @@ const StudentDashboard = () => {
                 {activeTab === 'complaints' && (
                     <div className="space-y-6">
                         {/* Submit form */}
-                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                            <h2 className="font-bold text-gray-800 mb-4">➕ Submit Complaint / Suggestion</h2>
+                        <div className="bg-card rounded-2xl shadow-sm border border-base p-6">
+                            <h2 className="font-bold text-base mb-4">➕ Submit Complaint / Suggestion</h2>
 
                             {cmpSuccess && (
                                 <div className="mb-4 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl p-4 flex items-center space-x-2">
@@ -709,7 +709,7 @@ const StudentDashboard = () => {
                                         <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
                                         <select
                                             value={cmpForm.type} onChange={e => setCmpForm(f => ({ ...f, type: e.target.value }))}
-                                            className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-3 py-2 border border-base rounded-xl text-sm outline-none focus:ring-2 focus:ring-emerald-500 text-base"
                                         >
                                             <option>Complaint</option>
                                             <option>Suggestion</option>
@@ -719,7 +719,7 @@ const StudentDashboard = () => {
                                         <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
                                         <select
                                             value={cmpForm.category} onChange={e => setCmpForm(f => ({ ...f, category: e.target.value }))}
-                                            className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-3 py-2 border border-base rounded-xl text-sm outline-none focus:ring-2 focus:ring-emerald-500 text-base"
                                         >
                                             <option>Food</option>
                                             <option>Cleanliness</option>
@@ -729,14 +729,14 @@ const StudentDashboard = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Description *</label>
+                                    <label className="block text-sm font-medium text-sub mb-1">Description *</label>
                                     <textarea
                                         rows={4} required minLength={10} maxLength={1000}
                                         value={cmpForm.description} onChange={e => setCmpForm(f => ({ ...f, description: e.target.value }))}
                                         placeholder="Describe your complaint or suggestion in detail (min 10 characters)..."
-                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
+                                        className="w-full px-4 py-3 border border-base rounded-xl text-sm outline-none focus:ring-2 focus:ring-emerald-500 resize-none text-base"
                                     />
-                                    <p className="text-xs text-gray-400 mt-1">{cmpForm.description.length}/1000</p>
+                                    <p className="text-xs text-muted mt-1">{cmpForm.description.length}/1000</p>
                                 </div>
                                 <button type="submit" disabled={cmpSubmitting}
                                     className="flex items-center bg-emerald-600 text-white px-6 py-2.5 rounded-xl hover:bg-emerald-700 disabled:opacity-60 transition font-semibold"
@@ -748,12 +748,12 @@ const StudentDashboard = () => {
                         </div>
 
                         {/* My complaints list */}
-                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                            <div className="px-5 py-4 border-b border-gray-100">
-                                <h2 className="font-bold text-gray-800">📋 My Complaints / Suggestions</h2>
+                        <div className="bg-card rounded-2xl shadow-sm border border-base overflow-hidden">
+                            <div className="px-5 py-4 border-b border-base">
+                                <h2 className="font-bold text-base">📋 My Complaints / Suggestions</h2>
                             </div>
                             {complaints.length === 0 ? (
-                                <div className="text-center py-12 text-gray-300">
+                                <div className="text-center py-12 text-muted">
                                     <ClipboardList size={40} className="mx-auto mb-2" />
                                     <p>No submissions yet</p>
                                 </div>
@@ -767,16 +767,16 @@ const StudentDashboard = () => {
                                                 <div className="flex items-start justify-between mb-2">
                                                     <div>
                                                         <div className="flex items-center space-x-2 flex-wrap gap-y-1">
-                                                            <span className="font-semibold text-sm text-gray-800">{c.type} — {c.category}</span>
+                                                            <span className="font-semibold text-sm text-base">{c.type} — {c.category}</span>
                                                             <span className={`text-xs font-bold px-2 py-0.5 rounded-full flex items-center ${sc.color}`}>
                                                                 <span className={`w-1.5 h-1.5 rounded-full mr-1 ${sc.dot}`} />
                                                                 {c.status}
                                                             </span>
                                                         </div>
-                                                        <p className="text-xs text-gray-400 mt-0.5">{new Date(c.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
+                                                        <p className="text-xs text-muted mt-0.5">{new Date(c.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
                                                     </div>
                                                 </div>
-                                                <p className="text-sm text-gray-600">{c.description}</p>
+                                                <p className="text-sm text-sub">{c.description}</p>
                                                 {c.adminResponse && (
                                                     <div className="mt-3 bg-indigo-50 border border-indigo-100 rounded-xl p-3">
                                                         <p className="text-xs font-bold text-indigo-600 mb-1">🛡️ Admin Response:</p>
@@ -796,28 +796,28 @@ const StudentDashboard = () => {
             {/* ── Feedback Modal ────────────────────────────────── */}
             {feedbackModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl">
+                    <div className="bg-card rounded-2xl w-full max-w-md p-6 shadow-2xl">
                         <div className="flex justify-between items-center mb-5">
                             <div>
-                                <h2 className="text-lg font-bold text-gray-800">Rate this Meal</h2>
-                                <p className="text-sm text-gray-400">{feedbackModal.day} — {feedbackModal.mealType}</p>
+                                <h2 className="text-lg font-bold text-base">Rate this Meal</h2>
+                                <p className="text-sm text-muted">{feedbackModal.day} — {feedbackModal.mealType}</p>
                             </div>
                             <button onClick={() => setFeedbackModal(null)} className="text-gray-400 hover:text-gray-600">
                                 <X size={20} />
                             </button>
                         </div>
 
-                        <p className="text-sm text-gray-600 mb-4 bg-gray-50 rounded-xl p-3">{feedbackModal.foodItems}</p>
+                        <p className="text-sm text-sub mb-4 bg-muted rounded-xl p-3">{feedbackModal.foodItems}</p>
 
                         {/* Star rating */}
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Overall Rating *</label>
+                            <label className="block text-sm font-medium text-sub mb-2">Overall Rating *</label>
                             <StarPicker value={fbRating} onChange={setFbRating} />
                         </div>
 
                         {/* Like / Dislike */}
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Reaction</label>
+                            <label className="block text-sm font-medium text-sub mb-2">Reaction</label>
                             <div className="flex space-x-3">
                                 <button
                                     onClick={() => setFbLiked(fbLiked === true ? null : true)}
@@ -827,7 +827,7 @@ const StudentDashboard = () => {
                                 </button>
                                 <button
                                     onClick={() => setFbLiked(fbLiked === false ? null : false)}
-                                    className={`flex items-center space-x-2 px-4 py-2 rounded-xl border-2 text-sm font-semibold transition ${fbLiked === false ? 'border-red-400 bg-red-50 text-red-600' : 'border-gray-200 hover:border-red-300'}`}
+                                    className={`flex items-center space-x-2 px-4 py-2 rounded-xl border-2 text-sm font-semibold transition ${fbLiked === false ? 'border-red-400 bg-red-50 text-red-600' : 'border-base hover:border-red-300'}`}
                                 >
                                     <ThumbsDown size={16} /> <span>Didn't like</span>
                                 </button>
@@ -836,19 +836,19 @@ const StudentDashboard = () => {
 
                         {/* Comment */}
                         <div className="mb-5">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Comment (optional)</label>
+                            <label className="block text-sm font-medium text-sub mb-2">Comment (optional)</label>
                             <textarea
                                 rows={3} maxLength={500}
                                 value={fbComment} onChange={e => setFbComment(e.target.value)}
                                 placeholder="Any specific feedback about this meal?"
-                                className="w-full px-4 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
+                                className="w-full px-4 py-2 border border-base rounded-xl text-sm outline-none focus:ring-2 focus:ring-emerald-500 resize-none bg-card text-base"
                             />
-                            <p className="text-xs text-gray-400 mt-1">{fbComment.length}/500</p>
+                            <p className="text-xs text-muted mt-1">{fbComment.length}/500</p>
                         </div>
 
                         <div className="flex space-x-3">
                             <button onClick={() => setFeedbackModal(null)}
-                                className="flex-1 border border-gray-200 rounded-xl py-2.5 font-medium hover:bg-gray-50 transition text-sm">
+                                className="flex-1 border border-base rounded-xl py-2.5 font-medium hover:bg-muted transition text-sm text-sub">
                                 Cancel
                             </button>
                             <button onClick={submitFeedback} disabled={fbSaving || !fbRating}

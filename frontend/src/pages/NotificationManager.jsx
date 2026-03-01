@@ -150,7 +150,7 @@ const NotificationManager = () => {
             {/* Create / Edit Modal */}
             {showModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-2xl w-full max-w-lg p-6 shadow-2xl">
+                    <div className="bg-card rounded-2xl w-full max-w-lg p-6 shadow-2xl">
                         <div className="flex justify-between items-center mb-5">
                             <h2 className="text-lg font-bold text-gray-800">{editId ? 'Edit Notification' : 'New Notification'}</h2>
                             <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600"><X size={20} /></button>
@@ -162,7 +162,7 @@ const NotificationManager = () => {
                                     value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
                                     required maxLength={150}
                                     placeholder="e.g. Special Dinner Tomorrow"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"
+                                    className="w-full px-4 py-2 border border-base rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-base"
                                 />
                             </div>
                             <div>
@@ -171,7 +171,7 @@ const NotificationManager = () => {
                                     value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
                                     required rows={3} maxLength={1000}
                                     placeholder="Write your message here..."
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none resize-none"
+                                    className="w-full px-4 py-2 border border-base rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none resize-none text-base"
                                 />
                             </div>
                             <div className="grid grid-cols-2 gap-4">
@@ -179,7 +179,7 @@ const NotificationManager = () => {
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
                                     <select
                                         value={form.type} onChange={e => setForm(f => ({ ...f, type: e.target.value }))}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-xl outline-none"
+                                        className="w-full px-4 py-2 border border-base rounded-xl outline-none text-base"
                                     >
                                         {Object.keys(TYPE_CONFIG).map(t => <option key={t}>{t}</option>)}
                                     </select>
@@ -189,7 +189,7 @@ const NotificationManager = () => {
                                     <input
                                         type="datetime-local" value={form.expiresAt}
                                         onChange={e => setForm(f => ({ ...f, expiresAt: e.target.value }))}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-xl outline-none text-sm"
+                                        className="w-full px-4 py-2 border border-base rounded-xl outline-none text-sm text-base"
                                     />
                                 </div>
                             </div>

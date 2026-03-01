@@ -170,8 +170,8 @@ const StudentManagement = () => {
 
                             {/* Info */}
                             <div className="flex-1 min-w-0">
-                                <p className="font-semibold text-sm text-gray-900 truncate">{s.name}</p>
-                                <p className="text-xs text-gray-500">Roll: {s.rollNo} · Room: {s.roomNo}</p>
+                                <p className="font-semibold text-sm text-base truncate">{s.name}</p>
+                                <p className="text-xs text-sub">Roll: {s.rollNo} · Room: {s.roomNo}</p>
                                 {s.phone && <p className="text-xs text-gray-400">{s.phone}</p>}
                                 <span className={`inline-block mt-1 text-xs font-semibold px-2 py-0.5 rounded-full ${s.status === 'Active'
                                     ? 'bg-emerald-100 text-emerald-700'

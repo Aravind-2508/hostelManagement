@@ -89,21 +89,21 @@ const Login = () => {
             </div>
 
             {/* Right login form */}
-            <div className="flex-1 flex items-center justify-center p-6 bg-slate-950 lg:bg-white">
+            <div className="flex-1 flex items-center justify-center p-6 bg-base">
                 <div className="w-full max-w-md">
                     {/* Mobile logo */}
                     <div className="lg:hidden flex items-center gap-2 mb-10">
                         <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center">
                             <Sparkles size={16} className="text-white" />
                         </div>
-                        <p className="text-white font-bold">Hostel Food Pro</p>
+                        <p className="text-base font-bold">Hostel Food Pro</p>
                     </div>
 
                     <div className="mb-10">
-                        <h2 className="text-3xl font-black text-slate-900 lg:text-slate-900 max-lg:text-white mb-2">
+                        <h2 className="text-3xl font-black text-base mb-2">
                             Welcome back
                         </h2>
-                        <p className="text-slate-500 max-lg:text-slate-400">
+                        <p className="text-sub">
                             Sign in to your admin dashboard
                         </p>
                     </div>
@@ -116,7 +116,7 @@ const Login = () => {
 
                     <form onSubmit={handleSubmit} className="space-y-5">
                         <div>
-                            <label className="block text-sm font-semibold text-slate-700 max-lg:text-slate-300 mb-2">
+                            <label className="block text-sm font-semibold text-sub mb-2">
                                 Email Address
                             </label>
                             <input
@@ -132,7 +132,7 @@ const Login = () => {
 
                         <div>
                             <div className="flex items-center justify-between mb-2">
-                                <label className="text-sm font-semibold text-slate-700 max-lg:text-slate-300">Password</label>
+                                <label className="text-sm font-semibold text-sub">Password</label>
                             </div>
                             <div className="relative">
                                 <input
@@ -170,8 +170,8 @@ const Login = () => {
                         </button>
                     </form>
 
-                    <div className="mt-8 pt-6 border-t border-slate-100 max-lg:border-slate-800 text-center">
-                        <p className="text-sm text-slate-500 max-lg:text-slate-500">
+                    <div className="mt-8 pt-6 border-t border-base text-center">
+                        <p className="text-sm text-sub">
                             Are you a student?{' '}
                             <Link
                                 to="/student-login"
